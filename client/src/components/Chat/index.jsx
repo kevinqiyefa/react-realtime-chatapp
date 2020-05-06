@@ -2,11 +2,12 @@ import React, { useState, useEffect } from 'react';
 import queryString from 'query-string';
 import io from 'socket.io-client';
 import styles from './Chat.module.css';
+
 // import PropTypes from 'prop-types'
 
 let socket;
 
-const Chat = ({ location }) => {
+const Chat = ({ location, history }) => {
   const [name, setName] = useState('');
   const [room, setRoom] = useState('');
   const [users, setUsers] = useState('');
@@ -20,7 +21,13 @@ const Chat = ({ location }) => {
     socket = io(ENDPOINT);
     setRoom(room);
     setName(name);
-    socket.emit('join', { name, room });
+    socket.emit('join', { name, room }, (error) => {
+      if (error) {
+        alert(error);
+        history.replace('/');
+        socket.disconnect(true);
+      }
+    });
   }, [ENDPOINT, location.search]);
 
   return <div>Chat</div>;
