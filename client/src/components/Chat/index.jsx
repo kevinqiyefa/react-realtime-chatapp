@@ -2,6 +2,7 @@ import React, { useState, useEffect, useCallback } from 'react';
 import queryString from 'query-string';
 import io from 'socket.io-client';
 import InputForm from '../InputForm';
+import InfoBar from '../InfoBar';
 import styles from './Chat.module.css';
 
 // import PropTypes from 'prop-types'
@@ -52,8 +53,8 @@ const Chat = ({ location, history }) => {
   return (
     <div className="chat">
       <div className="container">
-        {/* <InfoBar room={room} />
-      <Messages messages={messages} name={name} /> */}
+        <InfoBar room={room} />
+        {/* <Messages messages={messages} name={name} /> */}
         <InputForm
           message={message}
           setMessage={setMessage}
