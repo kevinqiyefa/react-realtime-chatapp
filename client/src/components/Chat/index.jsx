@@ -1,6 +1,7 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import queryString from 'query-string';
 import io from 'socket.io-client';
+import InputForm from '../InputForm';
 import styles from './Chat.module.css';
 
 // import PropTypes from 'prop-types'
@@ -17,6 +18,7 @@ const Chat = ({ location, history }) => {
   const ENDPOINT = 'http://localhost:3001';
 
   useEffect(() => {
+    console.log('sss');
     const { name, room } = queryString.parse(location.search);
     socket = io(ENDPOINT);
     setRoom(room);
@@ -28,13 +30,43 @@ const Chat = ({ location, history }) => {
         socket.disconnect(true);
       }
     });
-  }, [ENDPOINT, location.search]);
+  }, [ENDPOINT, location.search, history]);
 
-  return <div>Chat</div>;
+  useEffect(() => {
+    console.log('in message');
+    socket.on('message', (message) => {
+      setMessages((messages) => [...messages, message]);
+    });
+  }, []);
+
+  console.log(messages);
+
+  const sendMessage = (e) => {
+    e.preventDefault();
+
+    if (message) {
+      socket.emit('sendMessage', message, () => setMessage(''));
+    }
+  };
+
+  return (
+    <div className="chat">
+      <div className="container">
+        {/* <InfoBar room={room} />
+      <Messages messages={messages} name={name} /> */}
+        <InputForm
+          message={message}
+          setMessage={setMessage}
+          sendMessage={sendMessage}
+        />
+      </div>
+      {/* <TextContainer users={users}/> */}
+    </div>
+  );
 };
 
 // Chat.propTypes = {
 
 // }
 
-export default Chat;
+export default React.memo(Chat);

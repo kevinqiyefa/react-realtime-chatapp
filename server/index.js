@@ -15,13 +15,29 @@ app.use(router);
 
 io.on('connection', (socket) => {
   console.log('connect');
+
   socket.on('join', ({ name, room }, callback) => {
-    console.log('message: ' + name, room);
+    console.log('join: ' + name, room);
     const { error, user } = addUser({ id: socket.id, name, room });
     if (error) return callback(error);
+
+    socket.join(user.room);
+    socket.emit('message', {
+      user: 'admin',
+      text: `${user.name}, welcome to room ${user.room}.`,
+    });
+  });
+
+  socket.on('sendMessage', (message, callback) => {
+    const user = getUser(socket.id);
+
+    io.to(user.room).emit('message', { user: user.name, text: message });
+
+    callback();
   });
 
   socket.on('disconnect', () => {
+    const user = removeUser(socket.id);
     console.log('user disconnected');
   });
 });
