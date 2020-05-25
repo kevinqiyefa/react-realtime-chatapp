@@ -14,17 +14,22 @@ app.use(cors());
 app.use(router);
 
 io.on('connection', (socket) => {
-  console.log('connect');
-
   socket.on('join', ({ name, room }, callback) => {
-    console.log('join: ' + name, room);
     const { error, user } = addUser({ id: socket.id, name, room });
     if (error) return callback(error);
 
     socket.join(user.room);
     socket.emit('message', {
-      user: 'admin',
+      user: 'Admin',
       text: `${user.name}, welcome to room ${user.room}.`,
+    });
+
+    socket.broadcast
+      .to(user.room)
+      .emit('message', { user: 'Admin', text: `${user.name} has joined!` });
+
+    io.to(user.room).emit('roomData', {
+      users: getUsersInRoom(user.room),
     });
   });
 
@@ -38,7 +43,16 @@ io.on('connection', (socket) => {
 
   socket.on('disconnect', () => {
     const user = removeUser(socket.id);
-    console.log('user disconnected');
+    if (user) {
+      io.to(user.room).emit('message', {
+        user: 'Admin',
+        text: `${user.name} has left.`,
+      });
+
+      io.to(user.room).emit('roomData', {
+        users: getUsersInRoom(user.room),
+      });
+    }
   });
 });
 
