@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
-// import styles from './Join.module.css';
-// import PropTypes from 'prop-types'
+import cx from 'classnames';
+import styles from './Join.module.css';
 
-const Join = (props) => {
+const Join = () => {
   const [name, setName] = useState('');
   const [room, setRoom] = useState('');
 
@@ -12,13 +12,13 @@ const Join = (props) => {
   };
 
   return (
-    <div className="join">
-      <div className="joinContainer">
-        <h1 className="heading">Join a Chat Room</h1>
+    <div className={styles.Join}>
+      <div className={styles.JoinContainer}>
+        <h1 className={styles.heading}>Join a Chat Room</h1>
         <div>
           <input
             placeholder="Name"
-            className="joinInput"
+            className={styles.joinInput}
             type="text"
             onChange={(e) => setName(e.target.value)}
           />
@@ -26,7 +26,7 @@ const Join = (props) => {
         <div>
           <input
             placeholder="Room"
-            className="joinInput mt-20"
+            className={cx(styles.joinInput, styles.mt20)}
             type="text"
             onChange={(e) => setRoom(e.target.value)}
           />
@@ -35,7 +35,7 @@ const Join = (props) => {
           onClick={(e) => handleClick(e)}
           to={`/chat?name=${name}&room=${room}`}
         >
-          <button className={'button mt-20'} type="submit">
+          <button className={cx(styles.joinButton, styles.mt20)} type="submit">
             Sign In
           </button>
         </Link>
@@ -43,9 +43,5 @@ const Join = (props) => {
     </div>
   );
 };
-
-// Join.propTypes = {
-
-// }
 
 export default Join;
