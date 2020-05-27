@@ -5,7 +5,7 @@ import InputForm from '../InputForm';
 import InfoBar from '../InfoBar';
 import Messages from '../Messages';
 import TextContainer from '../TextContainer';
-// import styles from './Chat.module.css';
+import styles from './Chat.module.css';
 
 let socket;
 
@@ -33,7 +33,6 @@ const Chat = ({ location, history }) => {
   }, [ENDPOINT, location.search, history]);
 
   useEffect(() => {
-    console.log('in message');
     socket.on('message', (message) => {
       setMessages((messages) => [...messages, message]);
     });
@@ -41,8 +40,6 @@ const Chat = ({ location, history }) => {
       setUsers(users);
     });
   }, []);
-
-  console.log('users', users);
 
   const sendMessage = (e) => {
     e.preventDefault();
@@ -55,8 +52,8 @@ const Chat = ({ location, history }) => {
   const memoInfoBar = useMemo(() => <InfoBar room={room} />, [room]);
 
   return (
-    <div className="chat">
-      <div className="container">
+    <>
+      <div className={styles.ChatContainer}>
         {memoInfoBar}
         <Messages messages={messages} name={name} />
         <InputForm
@@ -66,7 +63,7 @@ const Chat = ({ location, history }) => {
         />
       </div>
       <TextContainer users={users} />
-    </div>
+    </>
   );
 };
 

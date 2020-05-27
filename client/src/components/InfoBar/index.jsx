@@ -4,7 +4,6 @@ import closeIcon from '../../assets/closeIcon.png';
 import PropTypes from 'prop-types';
 
 const InfoBar = ({ room }) => {
-  console.log('InfoBar');
   return (
     <div className="infoBar">
       <div className="leftInnerContainer">

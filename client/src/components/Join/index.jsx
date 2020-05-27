@@ -12,34 +12,32 @@ const Join = () => {
   };
 
   return (
-    <div className={styles.Join}>
-      <div className={styles.JoinContainer}>
-        <h1 className={styles.heading}>Join a Chat Room</h1>
-        <div>
-          <input
-            placeholder="Name"
-            className={styles.joinInput}
-            type="text"
-            onChange={(e) => setName(e.target.value)}
-          />
-        </div>
-        <div>
-          <input
-            placeholder="Room"
-            className={cx(styles.joinInput, styles.mt20)}
-            type="text"
-            onChange={(e) => setRoom(e.target.value)}
-          />
-        </div>
-        <Link
-          onClick={(e) => handleClick(e)}
-          to={`/chat?name=${name}&room=${room}`}
-        >
-          <button className={cx(styles.joinButton, styles.mt20)} type="submit">
-            Sign In
-          </button>
-        </Link>
+    <div className={styles.JoinContainer}>
+      <h1 className={styles.heading}>Join a Chat Room</h1>
+      <div>
+        <input
+          placeholder="Name"
+          className={styles.joinInput}
+          type="text"
+          onChange={(e) => setName(e.target.value)}
+        />
       </div>
+      <div>
+        <input
+          placeholder="Room"
+          className={cx(styles.joinInput, styles.mt20)}
+          type="text"
+          onChange={(e) => setRoom(e.target.value)}
+        />
+      </div>
+      <Link
+        onClick={(e) => handleClick(e)}
+        to={`/chat?name=${name}&room=${room}`}
+      >
+        <button className={cx(styles.joinButton, styles.mt20)} type="submit">
+          Sign In
+        </button>
+      </Link>
     </div>
   );
 };
