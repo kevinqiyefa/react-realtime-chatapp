@@ -1,0 +1,22 @@
+.textContainer {
+  display: flex;
+  flex-direction: column;
+  margin-left: 100px;
+  color: white;
+  height: 100%;
+  justify-content: center;
+  text-align: left;
+}
+
+.activeItem {
+  display: flex;
+  align-items: center;
+}
+
+.activeItem img {
+  padding-left: 10px;
+}
+
+.textContainer h1 {
+  margin-bottom: 0px;
+}
